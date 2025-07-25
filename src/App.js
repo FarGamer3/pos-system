@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+
+import React, { useState } from 'react';
+
+// Layout Components
+import Sidebar from './components/Layout/Sidebar';
+
+// Pages
+import CreateBillPage from './pages/CreateBillPage';
+import ViewBillsPage from './pages/ViewBillsPage';
+import ProductsPage from './pages/ProductsPage';
 
 function App() {
+  const [activeTab, setActiveTab] = useState('create-bill');
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'create-bill':
+        return <CreateBillPage />;
+      case 'view-bills':
+        return <ViewBillsPage />;
+      case 'products':
+        return <ProductsPage />;
+      default:
+        return <CreateBillPage />;
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      
+      {/* Main Content */}
+      <div className="flex-1 overflow-auto">
+        {renderContent()}
+      </div>
     </div>
   );
 }
